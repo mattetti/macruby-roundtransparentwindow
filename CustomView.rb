@@ -8,8 +8,8 @@ class CustomView < NSView
   # We get set up here.
   def awakeFromNib
     # load the images we'll use from the bundle's Resources directory
-    @circleImage = NSImage.imageNamed("circle")
-    @pentaImage  = NSImage.imageNamed("pentagram")
+    @circle_image = NSImage.imageNamed("circle")
+    @penta_image  = NSImage.imageNamed("pentagram")
     # tell ourselves that we need displaying (force redraw)
     setNeedsDisplay(true)
   end
@@ -29,11 +29,8 @@ class CustomView < NSView
     # If we called -disolveToPoint:fraction: instead of -compositeToPoint:operation:, then the image
     # could itself be drawn with less than full opaqueness, but since we're already setting the alpha
     # on the entire window, we don't bother with that here.
-    if window.alphaValue > 0.7
-      @circleImage.compositeToPoint([0,0], operation:NSCompositeSourceOver)
-    else
-      @pentaImage.compositeToPoint([0,0],  operation:NSCompositeSourceOver)
-    end
+    image_to_draw = (window.alphaValue > 0.7) ? @circle_image : @penta_image
+    image_to_draw.compositeToPoint([0,0], operation:NSCompositeSourceOver)
     window.invalidateShadow
   end
   
