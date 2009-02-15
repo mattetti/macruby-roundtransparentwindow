@@ -30,7 +30,10 @@ class CustomView < NSView
     # could itself be drawn with less than full opaqueness, but since we're already setting the alpha
     # on the entire window, we don't bother with that here.
     image_to_draw = (window.alphaValue > 0.7) ? @circle_image : @penta_image
-    image_to_draw.compositeToPoint([0,0], operation:NSCompositeSourceOver)
+    # same as `image_to_draw.compositeToPoint([0,0], operation:NSCompositeSourceOver)`
+    # apart that compositeToPoint usage is now discouraged as the behavior it provides is not recommended 
+    # for general use
+    image_to_draw.drawAtPoint([0,0], fromRect:frame, operation:NSCompositeSourceOver, fraction:1.0)
     window.invalidateShadow
   end
   
